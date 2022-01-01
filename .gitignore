@@ -1,0 +1,4 @@
+/.venv/
+/.idea/
+/downloads/
+/fips_registers_links_download/__pycache__/
