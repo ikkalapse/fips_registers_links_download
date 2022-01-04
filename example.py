@@ -2,7 +2,7 @@ from fips_registers_links_download.fips_registers_links_download import FipsRegi
 from datetime import datetime
 import os
 
-for ois_type in 'TIMS DB EVM RUPAT RUPM'.split():
+for ois_type in 'TIMS DB EVM RUPM RUPAT'.split():
 
     print(ois_type)
 
