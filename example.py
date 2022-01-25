@@ -1,14 +1,16 @@
+import requests
+
 from fips_registers_links_download.fips_registers_links_download import FipsRegistersLinksDownloader
 from datetime import datetime
 import os
 
-for ois_type in 'TIMS DB EVM RUPM RUPAT'.split():
+for ois_type in 'DB TIMS EVM RUPM RUDE RUPAT'.split():
 
     print(ois_type)
 
     start_time = datetime.now()
 
-    downloader = FipsRegistersLinksDownloader(ois_type, filename_suffix='')
+    downloader = FipsRegistersLinksDownloader(ois_type, filename_suffix='') #, project_dir='...')
 
     downloader.download_links()
 

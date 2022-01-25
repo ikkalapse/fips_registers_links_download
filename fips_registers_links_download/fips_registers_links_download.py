@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 import os
 from pathlib import Path
+from requests.adapters import HTTPAdapter
 
 
 class FipsRegistersLinksDownloader:
@@ -44,14 +45,17 @@ class FipsRegistersLinksDownloader:
         self.links = self.extract_links()
         i = 0
         while True:
-            self.page = self.s.get(self.url_prev).text
-            links = self.extract_links()
-            go_next = False if "<nobr>Предыдущий диапазон</nobr>" in self.page else True
-            if len(links) > 0 and go_next is True:
-                self.links += links
-                i += 1
-            else:
-                break
+            try:
+                self.page = self.s.get(self.url_prev).text
+                links = self.extract_links()
+                go_next = False if "<nobr>Предыдущий диапазон</nobr>" in self.page else True
+                if len(links) > 0 and go_next is True:
+                    self.links += links
+                    i += 1
+                else:
+                    break
+            except Exception as e:
+                print(e)
         self.save_links()
 
     def save_links(self):
@@ -75,6 +79,7 @@ class FipsRegistersLinksDownloader:
 
     def __init_session(self):
         self.__s = requests.Session()
+        self.__s.mount('https://new.fips.ru', HTTPAdapter(max_retries=5))
         try:
             # переходим сначала в каталог реестров
             response = self.s.get(self.url_registers)
